@@ -1,0 +1,245 @@
+{% extends "index.html" %}
+{% block content %}
+
+<style>
+  body {
+    font-family: 'Clear Sans', 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    background: linear-gradient(135deg, #d9fdd3, #fafff8);
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+
+  h1 {
+    font-weight: 800;
+    font-size: 3rem;
+    background: linear-gradient(90deg, #2d6a4f, #52b788);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+    margin-top: 30px;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin-top: 10px;
+    margin-bottom: 0.5rem;
+  }
+
+  .info-box {
+    background: #e9f5e1;
+    border-left: 6px solid #52b788;
+    border-radius: 12px;
+    padding: 18px 28px;
+    margin: 20px auto 30px auto;
+    max-width: 600px;
+    font-size: 16px;
+    color: #2d6a4f;
+    box-shadow: 0px 4px 18px rgba(82, 183, 136, 0.10);
+    animation: fadeIn 1.2s;
+  }
+
+  form {
+    margin-top: 40px;
+    width: 85%;
+    margin: auto;
+  }
+
+  .card-form {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 12px 35px rgba(0, 0, 0, 0.12);
+    padding: 40px;
+    animation: slideUp 0.9s ease-in-out;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .card-form:hover {
+    transform: translateY(-5px);
+  }
+
+  label {
+    font-weight: 600;
+    margin-top: 15px;
+    display: block;
+    color: #2d6a4f;
+    letter-spacing: 0.5px;
+  }
+
+  .form-control {
+    border-radius: 12px;
+    padding: 14px;
+    border: 1px solid #ccc;
+    margin-top: 8px;
+    margin-bottom: 18px;
+    transition: all 0.3s ease;
+    font-size: 16px;
+  }
+
+  .form-control:focus,
+  .form-control:hover {
+    border-color: #40916c;
+    box-shadow: 0 0 10px rgba(64, 145, 108, 0.3);
+    outline: none;
+  }
+
+  #output-image {
+    max-width: 500px;
+    max-height: 450px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background: #f6fff8;
+  }
+
+  #output-image:hover {
+    transform: scale(1.05);
+  }
+
+  .btn-success {
+    background: linear-gradient(90deg, #52b788, #40916c);
+    border: none;
+    padding: 14px 35px;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0px 6px 18px rgba(82, 183, 136, 0.35);
+    cursor: pointer;
+  }
+
+  .btn-success:active {
+    transform: scale(0.98);
+  }
+
+  .btn-success:hover {
+    background: linear-gradient(90deg, #40916c, #2d6a4f);
+    transform: translateY(-4px) scale(1.07);
+    box-shadow: 0px 10px 25px rgba(45, 106, 79, 0.45);
+  }
+
+  .custom-select-arrow {
+    position: relative;
+  }
+  .custom-select-arrow select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: url('data:image/svg+xml;utf8,<svg fill="gray" height="18" viewBox="0 0 20 20" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M7.293 14.707a1 1 0 0 0 1.414 0l5-5a1 1 0 0 0-1.414-1.414L10 12.586 8.707 11.293a1 1 0 0 0-1.414 1.414l2 2z"/></svg>') no-repeat right 12px center/18px 18px;
+    padding-right: 40px;
+  }
+
+  @media (max-width: 991px) {
+    form {
+      width: 95%;
+    }
+    .card-form {
+      padding: 25px;
+    }
+    #output-image {
+      max-width: 100%;
+    }
+    .info-box {
+      padding: 12px 10px;
+      font-size: 15px;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<div class="container pt-5">
+  <h1>🌱 Crop Disease Prediction</h1>
+  <p>Our models provide you an easy, fast and efficient way to detect diseases in your plants.</p>
+  <div class="info-box">
+    <strong>How it works:</strong> Select your crop, upload a clear image of the affected plant part, and click <b>Predict</b>. Our AI will analyze the image and suggest possible diseases.
+  </div>
+</div>
+
+<form action="{{ url_for('find_crop_disease')}}" method="POST" enctype="multipart/form-data">
+  <div class="card-form">
+    <div class="container">
+      <!-- Crop Selection -->
+      <div class="row d-flex justify-content-center">
+        <label for="crop-select">Choose a crop :</label>
+        <div class="col-md-4 custom-select-arrow">
+          <select id="crop-select" name="crop" class="form-control" required>
+            <option value="" disabled selected>Select crop</option>
+            {% for crop in crops %}
+            <option value="{{crop}}" data-show=".{{crop}}">{{crop}}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <!-- Upload Image -->
+      <div class="row d-flex justify-content-center">
+        <label for="formFile">Upload your image :</label>
+        <div class="col-md-4 pt-2">
+          <input class="form-control" name="file" type="file" id="formFile" accept="image/*" onchange="preview_image(event)" required>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <img id="output-image" class="rounded mx-auto d-block" src="{{ url_for('send_file', filename=file_name)}}" onerror="this.src='./static/images/upload.jpg'" alt="Preview" />
+      <p style="font-style: italic; text-align:center;">{{ file_name }}</p>
+
+      <!-- Button -->
+      <div class="row" style="text-align:center;">
+        <div class="col-md-12">
+          <button type="submit" class="btn btn-success" value="submit">🌾 Predict</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<br><br><br>
+<hr>
+
+<script type="text/javascript">
+  function preview_image(event) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      var output = document.getElementById('output-image');
+      output.src = reader.result;
+    }
+    if(event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+</script>
+
+{% endblock %}

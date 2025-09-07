@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+{% block content %}
+
+<br>
+<br>
+
+<div class="container pt-5"></div>
+  <h3 class="text-center text-uppercase mb-4" style="width: 80%; margin: auto; margin-top: 20px;">
+    Results Of Prediction
+  </h3>
+  <div class="card mx-auto" style="width: 90%; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"></div>
+    <div class="card-body"></div>
+      <h4 class="mb-4 text-center"><b>Prediction: <span style="color: green" text-align: center>{{ result }}</span></b></h4>
+      <div class="prediction text-center">
+        <a href="/" class="btn btn-success btn-lg wow fadeInDown" data-wow-delay="2000">Back Home</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+<br>
+
+{% endblock %}

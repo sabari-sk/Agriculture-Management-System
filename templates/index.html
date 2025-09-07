@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>AgriGo | AI-Powered Agriculture</title>
+
+	<!-- Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+		integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Poppins:wght@300;400;600&display=swap"
+		rel="stylesheet">
+
+	<!-- Custom CSS -->
+	<link rel="stylesheet" type="text/css" href="./static/css/main.css">
+
+	<!-- jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+	<!-- Header / Navbar -->
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+			<div class="container">
+				<a class="navbar-brand" href="/">
+					<p class="m-0">🌱 Agri Sense AI</p>
+				</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav m-auto">
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="/">Home</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+								data-bs-toggle="dropdown" aria-expanded="false">
+								Services
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" href="/crop-disease">🌿 Crop Diseases</a></li>
+								<li><a class="dropdown-item" href="/fertilizer-recommendation">🌾 Fertilizer Recommendation</a></li>
+								<li><a class="dropdown-item" href="/crop-recommendation">🌱 Crop Recommendation</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<main>
+		{% block content %}
+
+		<!-- Hero Banner -->
+		<section id="banner" class="d-flex align-items-center justify-content-center text-center">
+			<div class="banner-text">
+				<h1 class="fw-bold">Agri Sense AI</h1>
+				<p class="lead">Harness AI to boost your farm’s growth and productivity 🌾</p>
+				<div class="banner-btn">
+					<a href="#services" class="btn btn-success me-2">Find Out</a>
+					<a href="#feature" class="btn btn-outline-light">Learn More</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- Weather Forecast Card -->
+		<section id="weather-forecast" class="py-5 bg-white">
+			<div class="container d-flex justify-content-center">
+				<div class="card shadow-lg border-0" style="max-width: 600px; width: 100%; border-radius: 1rem; background: linear-gradient(135deg, #e8f5e9 0%, #fff 100%);">
+					<div class="title-text text-center">
+				<p class="text-success fw-bold">FEATURES</p>
+				<h1 class="fw-bold">Weather Forecast</h1>
+			</div>
+					<div class="search mb-3 d-flex">
+						<input type="text" id="locationInput" class="form-control search-bar" placeholder="Enter city or location" required style="border-radius: 0.5rem 0 0 0.5rem; border:1px solid #27ae60;">
+						<button id="weatherSearchBtn" class="btn btn-success ms-2" style="border-radius:0 0.5rem 0.5rem 0;">
+							<i class="fas fa-search"></i>
+						</button>
+					</div>
+					<div class="weather loading text-center" id="weatherResult" style="padding:1rem 0;">
+						<h2 class="city" style="font-size:1.3rem; color:#2c3e50; font-weight:600;">Weather in Manipal</h2>
+						<h1 class="temp" style="font-size:2.5rem; color:#27ae60; font-weight:700;">25.02°C</h1>
+						<div class="d-flex justify-content-center align-items-center mb-2">
+							<img src="https://openweathermap.org/img/wn/04n.png" alt="" class="icon" style="width:48px; filter: drop-shadow(0 2px 6px rgba(44,62,80,0.08));" />
+							<div class="description ms-2" style="font-size:1.1rem; color:#2980b9;">Cloudy</div>
+						</div>
+						<div class="humidity" style="color:#16a085; font-size:1rem;">Humidity: 91%</div>
+						<div class="wind" style="color:#e67e22; font-size:1rem;">Wind speed: 63.05 km/h</div>
+					</div>
+					<div id="forecastResult" class="mt-4"></div>
+				</div>
+			</div>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+			<script>
+				// VanillaTilt.init(document.querySelectorAll(".card"), {
+				// 	max: 4,
+				// 	speed: 800,
+				// 	scale: 1.03,
+				// 	glare: true,
+				// 	"max-glare": 0.0,
+				// });
+
+				let weather = {
+					apiKey: "aba6ff9d6de967d5eac6fd79114693cc",
+					fetchWeather: function (city) {
+						fetch(
+							"https://api.openweathermap.org/data/2.5/weather?q=" +
+							city +
+							"&units=metric&appid=" +
+							this.apiKey
+						)
+							.then((response) => {
+								if (!response.ok) {
+									alert("No weather found.");
+									throw new Error("No weather found.");
+								}
+								return response.json();
+							})
+							.then((data) => this.displayWeather(data));
+					},
+					displayWeather: function (data) {
+						const { name } = data;
+						const { icon, description } = data.weather[0];
+						const { temp, humidity } = data.main;
+						const { speed } = data.wind;
+						document.querySelector(".city").innerText = "Weather in " + name;
+						document.querySelector(".icon").src =
+							"https://openweathermap.org/img/wn/" + icon + ".png";
+						document.querySelector(".description").innerText = description;
+						document.querySelector(".temp").innerText = temp + "°C";
+						document.querySelector(".humidity").innerText =
+							"Humidity: " + humidity + "%";
+						document.querySelector(".wind").innerText =
+							"Wind speed: " + speed + " km/h";
+						document.querySelector(".weather").classList.remove("loading");
+						document.body.style.backgroundImage =
+							"url('https://source.unsplash.com/1600x900/?" + name + "')";
+					},
+					search: function () {
+						this.fetchWeather(document.querySelector(".search-bar").value);
+					},
+				};
+
+				let geocode = {
+					reverseGeocode: function (latitude, longitude) {
+						var apikey = "90a096f90b3e4715b6f2e536d934c5af";
+						var api_url = "https://api.opencagedata.com/geocode/v1/json";
+						var request_url =
+							api_url +
+							"?" +
+							"key=" +
+							apikey +
+							"&q=" +
+							encodeURIComponent(latitude + "," + longitude) +
+							"&pretty=1" +
+							"&no_annotations=1";
+						var request = new XMLHttpRequest();
+						request.open("GET", request_url, true);
+						request.onload = function () {
+							if (request.status == 200) {
+								var data = JSON.parse(request.responseText);
+								weather.fetchWeather(data.results[0].components.city);
+								console.log(data.results[0].components.city)
+							} else if (request.status <= 500) {
+								console.log("unable to geocode! Response code: " + request.status);
+								var data = JSON.parse(request.responseText);
+								console.log("error msg: " + data.status.message);
+							} else {
+								console.log("server error");
+							}
+						};
+						request.onerror = function () {
+							console.log("unable to connect to server");
+						};
+						request.send();
+					},
+					getLocation: function () {
+						function success(data) {
+							geocode.reverseGeocode(data.coords.latitude, data.coords.longitude);
+						}
+						if (navigator.geolocation) {
+							navigator.geolocation.getCurrentPosition(success, console.error);
+						}
+						else {
+							weather.fetchWeather("Chennai");
+						}
+					}
+				};
+
+				document.querySelector(".search button").addEventListener("click", function () {
+					weather.search();
+				});
+
+				document
+					.querySelector(".search-bar")
+					.addEventListener("keyup", function (event) {
+						if (event.key == "Enter") {
+							weather.search();
+						}
+					});
+
+				weather.fetchWeather("Chennai");
+
+				document
+					.querySelector(".search-bar")
+					.addEventListener("keyup", function (event) {
+						if (event.key == "Enter") {
+							weather.search();
+						}
+					});
+
+				geocode.getLocation();
+			</script>
+		</section>
+		<section id="feature" class="py-5">
+			<div class="title-text text-center">
+				<p class="text-success fw-bold">FEATURES</p>
+				<h1 class="fw-bold">Why Choose Us</h1>
+			</div>
+			<div class="feature-box container d-flex flex-wrap align-items-center">
+				<div class="features col-md-6">
+					<div class="mb-4">
+						<h3><i class="fa fa-bolt text-success me-2"></i> Quick check</h3>
+						<p>AI helps detect crop diseases fast and accurately, saving your time.</p>
+					</div>
+					<div class="mb-4">
+						<h3><i class="fas fa-seedling text-success me-2"></i> Increase Yield</h3>
+						<p>Get accurate recommendations to boost your field’s output.</p>
+					</div>
+					<div>
+						<h3><i class="fa fa-dollar-sign text-success me-2"></i> Reduce Costs</h3>
+						<p>Save money on experts and tools — AI gives you smart insights at low cost.</p>
+					</div>
+				</div>
+				<div class="features-img col-md-6 text-center">
+					<img src="./static/images/han-jiaoye-0aB--tKKBsg-unsplash.jpg" alt="Agriculture features illustration"
+						class="img-fluid rounded shadow">
+				</div>
+			</div>
+		</section>
+
+		<!-- Uses of Agriculture -->
+		<section id="agriculture-importance" class="py-5" style="background: linear-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.05)), #fff;">
+			<div class="title-text text-center mb-5">
+				<p class="text-success fw-bold" style="letter-spacing: 2px;">IMPORTANCE OF AGRICULTURE</p>
+				<h1 class="fw-bold" style="color: #2c3e50;">Why Agriculture Matters</h1>
+			</div>
+			<div class="container">
+				<div class="row g-4">
+					<div class="col-md-4">
+						<div class="importance-card p-4" style="border-left: 4px solid #2ecc71; background: white; box-shadow: 0 3px 10px rgba(0,0,0,0.1); transition: transform 0.3s;">
+							<h3 style="color: #27ae60; font-size: 1.3rem;">Food Security</h3>
+							<p style="color: #666;">Ensures sustainable food supply for growing global population</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="importance-card p-4" style="border-left: 4px solid #e74c3c; background: white; box-shadow: 0 3px 10px rgba(0,0,0,0.1); transition: transform 0.3s;">
+							<h3 style="color: #c0392b; font-size: 1.3rem;">Economic Growth</h3>
+							<p style="color: #666;">Major contributor to GDP and international trade</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="importance-card p-4" style="border-left: 4px solid #3498db; background: white; box-shadow: 0 3px 10px rgba(0,0,0,0.1); transition: transform 0.3s;">
+							<h3 style="color: #2980b9; font-size: 1.3rem;">Employment</h3>
+							<p style="color: #666;">Provides livelihood to millions of people worldwide</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	
+		<section id="agriculture-uses" class="py-5 bg-light">
+			<div class="title-text text-center">
+				<p class="text-success fw-bold">USES OF AGRICULTURE</p>
+				<h1 class="fw-bold">How Agriculture Benefits Society</h1>
+			</div>
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-md-4 mb-4">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body text-center">
+								<h5 class="card-title fw-bold"><i class="fas fa-utensils text-success me-2"></i> Food Production</h5>
+								<p class="card-text">Agriculture provides the essential food supply for people worldwide.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body text-center">
+								<h5 class="card-title fw-bold"><i class="fas fa-industry text-success me-2"></i> Raw Materials</h5>
+								<p class="card-text">It supplies raw materials for industries such as textiles, biofuels, and pharmaceuticals.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body text-center">
+								<h5 class="card-title fw-bold"><i class="fas fa-briefcase text-success me-2"></i> Employment</h5>
+								<p class="card-text">Agriculture creates jobs and supports livelihoods for millions of people.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body text-center">
+								<h5 class="card-title fw-bold"><i class="fas fa-leaf text-success me-2"></i> Environmental Stewardship</h5>
+								<p class="card-text">Sustainable agriculture helps conserve natural resources and maintain biodiversity.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body text-center">
+								<h5 class="card-title fw-bold"><i class="fas fa-globe text-success me-2"></i> Economic Growth</h5>
+								<p class="card-text">Agriculture contributes to national economies and global trade.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body text-center">
+								<h5 class="card-title fw-bold"><i class="fas fa-heart text-success me-2"></i> Community Well-being</h5>
+								<p class="card-text">It supports healthy communities by providing nutrition and stability.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section></div>
+
+<!--  services -->
+		</section></div>
+		<section id="services" class="py-5 bg-light">
+			<div class="title-text text-center mb-5">
+				<p class="text-success fw-bold" style="letter-spacing: 2px;">SERVICES</p>
+				<h1 class="fw-bold" style="color: #2c3e50;">Our AI-Powered Solutions</h1>
+				<p class="text-muted">Empowering farmers with smart, easy-to-use tools for better results</p>
+			</div>
+			<div class="container">
+				<div class="row justify-content-center g-4">
+					<div class="col-md-4">
+						<div class="card h-100 border-0 shadow-lg service-card position-relative overflow-hidden">
+							<img src="./static/images/tractor-agricultural-machine-cultivating-field.jpg" class="card-img-top" alt="Crop Recommendation" style="height:220px; object-fit:cover;">
+							<div class="card-body text-center">
+								<a href="/crop-recommendation" class="text-decoration-none text-dark">
+									<h5 class="card-title fw-bold mb-2"><span class="me-2">🌱</span>Crop Recommendation</h5>
+								</a>
+								<p class="card-text mb-3">AI checks your soil and weather to suggest the best crops for higher yield.</p>
+								<a href="/crop-recommendation" class="btn btn-success px-4 rounded-pill">Try Now</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100 border-0 shadow-lg service-card position-relative overflow-hidden">
+							<img src="static/images/fetilizer1.jpg" class="card-img-top" alt="Fertilizer Recommendation" style="height:220px; object-fit:cover;">
+							<div class="card-body text-center">
+								<a href="/fertilizer-recommendation" class="text-decoration-none text-dark">
+									<h5 class="card-title fw-bold mb-2"><span class="me-2">🌾</span>Fertilizer Recommendation</h5>
+								</a>
+								<p class="card-text mb-3">AI gives you personalized fertilizer suggestions based on your crop and soil type.</p>
+								<a href="/fertilizer-recommendation" class="btn btn-success px-4 rounded-pill">Get Advice</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100 border-0 shadow-lg service-card position-relative overflow-hidden">
+							<img src="./static/images/crop disease.jpg" class="card-img-top" alt="Crop Disease Prediction" style="height:220px; object-fit:cover;">
+							<div class="card-body text-center">
+								<a href="/crop-disease" class="text-decoration-none text-dark">
+									<h5 class="card-title fw-bold mb-2"><span class="me-2">🌿</span>Crop Disease Prediction</h5>
+								</a>
+								<p class="card-text mb-3">Upload a crop photo and let AI instantly detect its health status.</p>
+								<a href="/crop-disease" class="btn btn-success px-4 rounded-pill">Scan Crop</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<style>
+				.service-card:hover {
+					transform: translateY(-8px) scale(1.005);
+					box-shadow: 0 8px 32px rgba(44, 62, 80, 0.15);
+					transition: all 0.3s;
+				}
+				.service-card img {
+					border-top-left-radius: 0.5rem;
+					border-top-right-radius: 0.5rem;
+				}
+			</style>
+		</section>
+
+<!-- Why Agriculture Needs AI -->
+
+
+		<!-- <section id="ai-needs" class="py-5 bg-white">
+			<div class="title-text text-center">
+				<p class="text-success fw-bold">AGRICULTURE & AI</p>
+				<h1 class="fw-bold">Why Agriculture Needs AI</h1>
+			</div>
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-md-4 mb-4">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body text-center">
+								<h5 class="card-title fw-bold"><i class="fas fa-chart-line text-success me-2"></i> Data-Driven Decisions</h5>
+								<p class="card-text">AI analyzes vast data from soil, weather, and crops to help farmers make smarter choices.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body text-center">
+								<h5 class="card-title fw-bold"><i class="fas fa-bug text-success me-2"></i> Early Pest Detection</h5>
+								<p class="card-text">AI-powered image recognition helps spot pests and diseases before they spread.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body text-center">
+								<h5 class="card-title fw-bold"><i class="fas fa-water text-success me-2"></i> Efficient Resource Use</h5>
+								<p class="card-text">AI optimizes irrigation and fertilizer use, reducing waste and saving costs.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body text-center">
+								<h5 class="card-title fw-bold"><i class="fas fa-globe-asia text-success me-2"></i> Climate Adaptation</h5>
+								<p class="card-text">AI helps farmers adapt to changing climate by predicting weather patterns and crop suitability.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body text-center">
+								<h5 class="card-title fw-bold"><i class="fas fa-truck text-success me-2"></i> Supply Chain Optimization</h5>
+								<p class="card-text">AI streamlines logistics, reducing post-harvest losses and improving market access.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<div class="card h-100 shadow-sm">
+							<div class="card-body text-center">
+								<h5 class="card-title fw-bold"><i class="fas fa-users text-success me-2"></i> Personalized Support</h5>
+								<p class="card-text">AI provides tailored advice to individual farmers based on their unique needs and conditions.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section></div> -->
+
+
+<!-- service No>
+
+		<!-- <section id="services" class="py-5 bg-light">
+			<div class="title-text text-center mb-5">
+				<p class="text-success fw-bold" style="letter-spacing: 2px;">SERVICES</p>
+				<h1 class="fw-bold" style="color: #2c3e50;">Our AI-Powered Solutions</h1>
+				<p class="text-muted">Empowering farmers with smart, easy-to-use tools for better results</p>
+			</div>
+			<div class="container">
+				<div class="row justify-content-center g-4">
+					<div class="col-md-4">
+						<div class="card h-100 border-0 shadow-lg service-card position-relative overflow-hidden">
+							<img src="./static/images/tractor-agricultural-machine-cultivating-field.jpg" class="card-img-top" alt="Crop Recommendation" style="height:220px; object-fit:cover;">
+							<div class="card-body text-center">
+								<a href="/crop-recommendation" class="text-decoration-none text-dark">
+									<h5 class="card-title fw-bold mb-2"><span class="me-2">🌱</span>Crop Recommendation</h5>
+								</a>
+								<p class="card-text mb-3">AI checks your soil and weather to suggest the best crops for higher yield.</p>
+								<a href="/crop-recommendation" class="btn btn-success px-4 rounded-pill">Try Now</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100 border-0 shadow-lg service-card position-relative overflow-hidden">
+							<img src="static/images/fetilizer1.jpg" class="card-img-top" alt="Fertilizer Recommendation" style="height:220px; object-fit:cover;">
+							<div class="card-body text-center">
+								<a href="/fertilizer-recommendation" class="text-decoration-none text-dark">
+									<h5 class="card-title fw-bold mb-2"><span class="me-2">🌾</span>Fertilizer Recommendation</h5>
+								</a>
+								<p class="card-text mb-3">AI gives you personalized fertilizer suggestions based on your crop and soil type.</p>
+								<a href="/fertilizer-recommendation" class="btn btn-success px-4 rounded-pill">Get Advice</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100 border-0 shadow-lg service-card position-relative overflow-hidden">
+							<img src="./static/images/crop disease.jpg" class="card-img-top" alt="Crop Disease Prediction" style="height:220px; object-fit:cover;">
+							<div class="card-body text-center">
+								<a href="/crop-disease" class="text-decoration-none text-dark">
+									<h5 class="card-title fw-bold mb-2"><span class="me-2">🌿</span>Crop Disease Prediction</h5>
+								</a>
+								<p class="card-text mb-3">Upload a crop photo and let AI instantly detect its health status.</p>
+								<a href="/crop-disease" class="btn btn-success px-4 rounded-pill">Scan Crop</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<style>
+				.service-card:hover {
+					transform: translateY(-8px) scale(1.005);
+					box-shadow: 0 8px 32px rgba(44, 62, 80, 0.15);
+					transition: all 0.3s;
+				}
+				.service-card img {
+					border-top-left-radius: 0.5rem;
+					border-top-right-radius: 0.5rem;
+				}
+			</style>
+		</section> -->
+
+		<!-- Contact -->
+		<footer id="contact" class="bg-dark py-5 text-white">
+			<div class="container">
+				<div class="row align-items-center mb-4">
+					<div class="col-md-6 text-md-start text-center mb-3 mb-md-0">
+						<h2 class="fw-bold mb-2">Contact Us</h2>
+						<p class="mb-1"><i class="fa fa-envelope me-2"></i>
+							<a href="mailto:sabrikarthikeyan2006@gmail.com" class="text-white text-decoration-underline">sabrikarthikeyan2006@gmail.com</a>
+						</p>
+					</div>
+					<div class="col-md-6 text-md-end text-center">
+						<h3 class="fw-bold mb-2">Follow Us</h3>
+						<a href="https://github.com/sabari-sk" target="_blank" class="btn btn-outline-light btn-sm rounded-pill me-2">
+							<i class="fab fa-github me-1"></i> GitHub
+						</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		{% endblock %}
+	</main>
+
+	<!-- JS Scripts -->
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+		integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
+		integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
+		crossorigin="anonymous"></script>
+	<script type="text/javascript" src="./static/js/my.js"></script>
+</body>
+
+</html>
