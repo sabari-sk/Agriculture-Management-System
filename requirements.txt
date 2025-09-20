@@ -4,12 +4,12 @@ Werkzeug==2.0.3
 itsdangerous==2.1.1
 MarkupSafe==2.1.1
 numpy==1.22.3
-pandas
+pandas==1.4.2
 scikit-learn==1.0.2
 joblib==1.1.0
 scipy==1.8.0
-matplotlib
-seaborn
+matplotlib==3.5.1
+seaborn==0.11.2
 tensorflow-cpu==2.8.0
 keras==2.8.0
 h5py==3.6.0
