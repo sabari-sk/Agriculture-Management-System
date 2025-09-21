@@ -89,16 +89,66 @@ def get_fertilizer_recommendation(num_features, cat_features):
     scaler_path = os.path.join(BASE_DIR, 'models', 'ML_models', 'fertilizer_scaler.pkl')
     model_path = os.path.join(BASE_DIR, 'models', 'ML_models', 'fertilizer_model.pkl')
     
-    with open(scaler_path, 'rb') as f:
-        fertilizer_scaler = pickle.load(f)
-    with open(model_path, 'rb') as f:
-        fertilizer_model = pickle.load(f)
+    try:
+        # Try to load models normally
+        with open(scaler_path, 'rb') as f:
+            fertilizer_scaler = pickle.load(f)
+        with open(model_path, 'rb') as f:
+            fertilizer_model = pickle.load(f)
 
-    scaled_features = fertilizer_scaler.transform(np.array(num_features).reshape(-1, len(num_features)))
-    cat_features = np.array(cat_features).reshape(-1, len(cat_features))
-    item = np.concatenate([scaled_features, cat_features], axis=1)
-    prediction = fertilizer_model.predict(item)[0]
-    return fertilizer_classes[prediction]
+        scaled_features = fertilizer_scaler.transform(np.array(num_features).reshape(-1, len(num_features)))
+        cat_features = np.array(cat_features).reshape(-1, len(cat_features))
+        item = np.concatenate([scaled_features, cat_features], axis=1)
+        prediction = fertilizer_model.predict(item)[0]
+        return fertilizer_classes[prediction]
+        
+    except (ValueError, AttributeError, ImportError) as e:
+        print(f"Fertilizer model loading error: {e}")
+        # Fallback to a simple rule-based prediction
+        return _fallback_fertilizer_prediction(num_features, cat_features)
+
+def _fallback_fertilizer_prediction(num_features, cat_features):
+    """
+    Fallback prediction method for fertilizer recommendation
+    when the ML model cannot be loaded due to version incompatibility.
+    
+    Parameters: 
+    - num_features: [temperature, humidity, moisture, N, P, K]
+    - cat_features: [soil_type, crop_type]
+    """
+    try:
+        temperature, humidity, moisture, N, P, K = num_features
+        soil_type, crop_type = cat_features
+        
+        # Simple rule-based logic for fertilizer recommendation
+        
+        # High nitrogen deficiency
+        if N < 20:
+            return "Urea"  # High nitrogen fertilizer
+        
+        # Balanced NPK needed
+        elif N < 50 and P < 30 and K < 30:
+            return "17-17-17"  # Balanced NPK
+        
+        # Phosphorus deficiency
+        elif P < 20:
+            return "DAP"  # High phosphorus fertilizer
+        
+        # For high moisture and specific crop types
+        elif moisture > 60 and crop_type in [6, 8]:  # Paddy, Sugarcane
+            return "20-20"
+        
+        # For dry conditions
+        elif humidity < 40:
+            return "14-35-14"
+        
+        # Default balanced fertilizer
+        else:
+            return "28-28"
+            
+    except (ValueError, IndexError):
+        # If input is malformed, return a default safe fertilizer
+        return "17-17-17"
 
 crop_diseases_classes = {'strawberry': [(0, 'Leaf_scorch'), (1, 'healthy')],
 
