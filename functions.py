@@ -2,13 +2,14 @@ import os
 import pickle
 import numpy as np
 from tensorflow.keras.preprocessing.image import load_img
-from tensorflow.keras.models import load_model
+from model_utils import safe_load_model
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
+
 def get_model(path):
-    model = load_model(path, compile=False)
-    return model
+    """Load model with compatibility fixes for different TensorFlow versions"""
+    return safe_load_model(path, compile_model=False)
 
 def img_predict(path, crop):
     data = load_img(path, target_size=(224, 224, 3))
