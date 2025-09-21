@@ -1,0 +1,144 @@
+{% extends "index.html" %}
+{% block content %}
+
+<style>
+  /* Global */
+  body {
+    font-family: 'Clear Sans', 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    background: linear-gradient(135deg, #f0fff4, #fafff8);
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+
+  /* Header */
+  h3 {
+    font-weight: 800;
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 20px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #2d6a4f, #52b788);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  /* Result Card */
+  .result-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px;
+    width: 90%;
+    margin: auto;
+    margin-top: 40px;
+    text-align: center;
+    box-shadow: 0px 12px 35px rgba(0, 0, 0, 0.12);
+    animation: slideUp 0.9s ease-in-out;
+  }
+
+  /* Uploaded Image */
+  .result-card img {
+    max-width: 500px;
+    max-height: 450px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+    margin-top: 30px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+  }
+
+  .result-card img:hover {
+    transform: scale(1.05);
+  }
+
+  /* File Name */
+  .result-card p {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  /* Prediction Text */
+  .prediction-text {
+    font-size: 1.6rem;
+    margin-top: 30px;
+    font-weight: bold;
+    color: #2d6a4f;
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  .prediction-text span {
+    color: #1b8a3a;
+    font-weight: 800;
+  }
+
+  /* Button */
+  .btn-success {
+    background: linear-gradient(90deg, #52b788, #40916c);
+    border: none;
+    padding: 14px 35px;
+    border-radius: 25px;
+    font-size: 17px;
+    font-weight: 600;
+    color: white;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0px 6px 18px rgba(82, 183, 136, 0.35);
+  }
+
+  .btn-success:hover {
+    background: linear-gradient(90deg, #40916c, #2d6a4f);
+    transform: translateY(-3px) scale(1.07);
+    box-shadow: 0px 10px 25px rgba(45, 106, 79, 0.45);
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<br><br><br><br><br><br>
+
+<div class="container pt-5">
+  <h3>Results of Prediction</h3>
+
+  <div class="result-card">
+    <img src="{{ url_for('send_file', filename=image_file_name)}}" 
+         onerror="this.src='./static/images/upload.jpg'" 
+         alt="Uploaded Crop Image">
+    <p>{{ image_file_name }}</p>
+
+    <div class="prediction-text-center">
+      Prediction: <span>{{ result }}</span>
+    </div>
+
+    <div class="prediction text-center">
+      <a href="/" class="btn btn-success">🏡 Back Home</a>
+    </div>
+  </div>
+</div>
+
+<br><br>
+
+{% endblock %}

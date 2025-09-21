@@ -1,0 +1,173 @@
+{% extends "index.html" %}
+{% block content %}
+
+<style>
+  /* Global */
+  body {
+    font-family: 'Clear Sans', 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    background: linear-gradient(135deg, #d9fdd3, #fafff8);
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+
+  /* Hero */
+  .hero-section {
+    text-align: center;
+    margin-bottom: 60px;
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  .hero-section h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #2d6a4f, #52b788);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 30px;
+  }
+
+  .hero-section p {
+    font-size: 18px;
+    color: #555;
+    margin-top: 10px;
+  }
+
+  /* Image */
+  .upload-img {
+    max-width: 100%;
+    border-radius: 18px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+    margin-top: -180px;
+    transition: transform 0.4s ease;
+    animation: fadeIn 1s ease-in-out;
+  }
+  .upload-img:hover {
+    transform: scale(1.05);
+  }
+
+  /* Form Card */
+  .form-section {
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0px 12px 35px rgba(0, 0, 0, 0.12);
+    animation: slideUp 0.9s ease-in-out;
+  }
+
+  label {
+    font-weight: 600;
+    margin-top: 15px;
+    display: block;
+    color: #2d6a4f;
+  }
+
+  .form-control {
+    border-radius: 12px;
+    padding: 14px;
+    border: 1px solid #ccc;
+    margin-top: 8px;
+    margin-bottom: 18px;
+    transition: all 0.3s ease;
+  }
+  .form-control:focus,
+  .form-control:hover {
+    border-color: #40916c;
+    box-shadow: 0 0 10px rgba(64, 145, 108, 0.3);
+    outline: none;
+  }
+
+  /* Button */
+  .btn-success {
+    background: linear-gradient(90deg, #52b788, #40916c);
+    border: none;
+    padding: 14px 35px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 600;
+    color: white;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0px 6px 18px rgba(82, 183, 136, 0.35);
+  }
+  .btn-success:hover {
+    background: linear-gradient(90deg, #40916c, #2d6a4f);
+    transform: translateY(-4px) scale(1.07);
+    box-shadow: 0px 10px 25px rgba(45, 106, 79, 0.45);
+  }
+
+  /* Responsive */
+  @media (max-width: 991px) {
+    .upload-img {
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+    .form-section {
+      padding: 25px;
+    }
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<div class="container pt-5">
+  <div class="hero-section">
+    <h1>🌱 Crop Recommendation</h1>
+    <p>Enter your soil and weather data to get the most suitable crop suggestion.</p>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-center align-items-center">
+
+    <!-- Image -->
+    <div class="col-md-5 mb-4">
+      <img src="./static/images/young-farmer-taking-care-his-business.jpg" class="upload-img" alt="Crop Recommendation">
+    </div>
+
+    <!-- Form -->
+    <div class="col-md-6">
+      <div class="form-section">
+        <form action="/crop-recommendation" method="POST">
+          
+          <label for="N">Amount of Azote (Nitrogen):</label>
+          <input class="form-control" type="number" min="0" required name="N" placeholder="Enter nitrogen amount">
+
+          <label for="P">Amount of Phosphorous:</label>
+          <input class="form-control" type="number" min="0" id="P" name="P" required placeholder="Enter phosphorous amount">
+
+          <label for="K">Amount of Potassium:</label>
+          <input class="form-control" type="number" min="0" id="K" name="K" required placeholder="Enter potassium amount">
+
+          <label for="temperature">Soil Temperature (°C):</label>
+          <input class="form-control" type="number" min="0" step="any" id="temperature" name="temperature" required placeholder="Enter soil temperature">
+
+          <label for="humidity">Soil Humidity (%):</label>
+          <input class="form-control" type="number" min="0" step="any" id="humidity" name="humidity" required placeholder="Enter soil humidity">
+
+          <label for="phosphore">Soil pH:</label>
+          <input class="form-control" type="number" min="0" step="any" id="phosphore" name="phosphore" required placeholder="Enter soil pH">
+
+          <label for="rainfall">Rainfall (mm):</label>
+          <input class="form-control" type="number" min="0" step="any" id="rainfall" name="rainfall" required placeholder="Enter rainfall amount">
+
+          <div class="text-center">
+            <button type="submit" class="btn btn-success">🌾 Predict Crop</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
