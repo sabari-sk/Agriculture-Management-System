@@ -2,213 +2,381 @@
 {% block content %}
 
 <style>
-  /* Global */
-  body {
-    font-family: 'Clear Sans', 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
-    background: linear-gradient(135deg, #d9fdd3, #fafff8);
-    margin: 0;
-    padding: 0;
-    color: #333;
+  /* Page Background */
+  .fert-rec-page {
+    background: linear-gradient(160deg, #f0faf0 0%, #e8f5e9 40%, #fff 100%);
+    min-height: 100vh;
+    padding-top: 100px;
+    padding-bottom: 60px;
   }
 
   /* Hero */
-  h1 {
-    font-weight: 800;
-    font-size: 3rem;
-    letter-spacing: 1px;
+  .fert-hero {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: frFadeIn 0.8s ease-out;
+  }
+  .fert-hero h1 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #1b4332;
+    margin-bottom: 8px;
+    font-family: 'Poppins', sans-serif;
+  }
+  .fert-hero h1 span {
     background: linear-gradient(90deg, #2d6a4f, #52b788);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-top: 30px;
-    animation: fadeIn 1s ease-in-out;
+  }
+  .fert-hero p {
+    font-size: 1.05rem;
+    color: #6c757d;
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.6;
   }
 
-  .hero-section {
-    text-align: center;
-    margin-bottom: 60px;
-    animation: fadeIn 1s ease-in-out;
+  /* Layout Row */
+  .fert-row {
+    display: flex;
+    align-items: stretch;
+    gap: 36px;
   }
 
-  .hero-section p {
-    font-size: 18px;
-    color: #555;
-    margin-top: 10px;
+  /* Image Side */
+  .fert-img-col {
+    flex: 0 0 42%;
+    max-width: 42%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: frFadeIn 1s ease-out;
   }
-
-  /* Hero Image */
-  .hero-img {
-    max-width: 100%;
-    border-radius: 18px;
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
-    margin-top: -180px;
-    transition: transform 0.4s ease;
-    animation: fadeIn 1s ease-in-out;
+  .fert-img-wrapper {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    flex: 1;
   }
-  .hero-img:hover {
-    transform: scale(1.07);
-  }
-
-  /* Card Form */
-  .card-form {
-    background: #ffffff;
-    padding: 35px;
-    border-radius: 20px;
-    box-shadow: 0px 12px 35px rgba(0, 0, 0, 0.12);
-    animation: slideUp 0.9s ease-in-out;
-    transition: transform 0.2s ease-in-out;
-  }
-  .card-form:hover {
-    transform: translateY(-5px);
-  }
-
-  label {
-    font-weight: 600;
-    margin-top: 15px;
+  .fert-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
+    transition: transform 0.5s ease;
+  }
+  .fert-img-wrapper:hover img {
+    transform: scale(1.04);
+  }
+
+  /* Info Cards below image */
+  .fert-info-cards {
+    display: flex;
+    gap: 12px;
+  }
+  .fert-info-card {
+    flex: 1;
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px 14px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .fert-info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  }
+  .fert-info-card i {
+    font-size: 1.5rem;
+    color: #40916c;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .fert-info-card .fi-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #999;
+    margin-bottom: 2px;
+  }
+  .fert-info-card .fi-value {
+    font-size: 0.9rem;
+    font-weight: 600;
     color: #2d6a4f;
   }
 
-  .form-control {
-    border-radius: 12px;
-    padding: 14px;
-    border: 1px solid #ccc;
-    margin-top: 8px;
-    margin-bottom: 18px;
-    transition: all 0.3s ease;
+  /* Form Side */
+  .fert-form-col {
+    flex: 1;
+    animation: frSlideUp 0.8s ease-out;
   }
-  .form-control:focus,
-  .form-control:hover {
-    border-color: #40916c;
-    box-shadow: 0 0 10px rgba(64, 145, 108, 0.3);
-    outline: none;
+  .fert-form-card {
+    background: #ffffff;
+    padding: 32px 36px;
+    border-radius: 18px;
+    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(45, 106, 79, 0.06);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .fert-form-card h4 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #1b4332;
+    margin-bottom: 4px;
+    font-size: 1.25rem;
+  }
+  .fert-form-card .form-subtitle {
+    font-size: 0.88rem;
+    color: #888;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eee;
   }
 
-  /* Button */
-  .btn-success {
-    background: linear-gradient(90deg, #52b788, #40916c);
-    border: none;
-    padding: 14px 35px;
-    border-radius: 25px;
-    font-size: 17px;
-    font-weight: 600;
-    color: white;
-    margin-top: 10px;
-    transition: all 0.3s ease;
-    box-shadow: 0px 6px 18px rgba(82, 183, 136, 0.35);
+  /* Section Labels */
+  .fr-section-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #52b788;
+    font-weight: 700;
+    margin-top: 6px;
+    margin-bottom: 12px;
   }
-  .btn-success:hover {
-    background: linear-gradient(90deg, #40916c, #2d6a4f);
-    transform: translateY(-4px) scale(1.07);
-    box-shadow: 0px 10px 25px rgba(45, 106, 79, 0.45);
+
+  /* Form Grid */
+  .fr-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 20px;
+  }
+  .fr-form-grid .full-width {
+    grid-column: 1 / -1;
+  }
+
+  /* Input Group */
+  .fr-field {
+    margin-bottom: 16px;
+  }
+  .fr-field label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .fr-field label i {
+    color: #52b788;
+    font-size: 0.85rem;
+    width: 16px;
+    text-align: center;
+  }
+  .fr-field .form-control {
+    border-radius: 10px;
+    padding: 11px 14px;
+    border: 1.5px solid #dee2e6;
+    font-size: 0.9rem;
+    background: #fafffe;
+    margin: 0;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .fr-field .form-control:focus {
+    border-color: #52b788;
+    box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.15);
+    outline: none;
+    background: #fff;
+  }
+  .fr-field .form-control::placeholder {
+    color: #b0b8c1;
+    font-size: 0.85rem;
+  }
+  .fr-field select.form-control {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2340916c' d='M6 8.825L1.175 4 2.238 2.938 6 6.7l3.763-3.763L10.825 4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 12px;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+
+  /* Submit Button */
+  .fr-submit-btn {
+    background: linear-gradient(135deg, #52b788 0%, #40916c 100%);
+    border: none;
+    padding: 13px 40px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(82, 183, 136, 0.3);
+    letter-spacing: 0.3px;
+  }
+  .fr-submit-btn:hover {
+    background: linear-gradient(135deg, #40916c 0%, #2d6a4f 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(45, 106, 79, 0.35);
+    color: #fff;
+  }
+  .fr-submit-btn:active {
+    transform: translateY(0);
   }
 
   /* Responsive */
   @media (max-width: 991px) {
-    .hero-img {
-      margin-top: 0;
-      margin-bottom: 30px;
+    .fert-row {
+      flex-direction: column;
+      gap: 24px;
     }
-    .card-form {
-      padding: 25px;
+    .fert-img-col {
+      flex: none;
+      max-width: 100%;
+    }
+    .fert-img-wrapper {
+      max-height: 280px;
+    }
+    .fert-form-card {
+      padding: 24px 20px;
+    }
+    .fr-form-grid {
+      grid-template-columns: 1fr;
+    }
+    .fert-hero h1 {
+      font-size: 2rem;
     }
   }
 
   /* Animations */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
+  @keyframes frFadeIn {
+    from { opacity: 0; transform: translateY(-15px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(40px); }
+  @keyframes frSlideUp {
+    from { opacity: 0; transform: translateY(25px); }
     to { opacity: 1; transform: translateY(0); }
   }
 </style>
 
+<section class="fert-rec-page">
+  <div class="container">
 
-<div class="container pt-5">
-    <h1 class="text-center" style="color: #8CE17D;">🌱 Fertilizer Recommendation</h1>
-    <p class="text-center pt-3 text-muted">
-        Enter your soil composition and crop type to get the best fertilizer recommendation for better yield.
-    </p>
-</div>
+    <!-- Hero -->
+    <div class="fert-hero">
+      <h1><span>Fertilizer Recommendation</span></h1>
+      <p>Enter your soil composition and crop type — our AI model will suggest the best fertilizer for maximum yield.</p>
+    </div>
 
-<div class="container mt-5">
-    <div class="row justify-content-center align-items-center">
-        
-        <!-- Left Image -->
-        <div class="col-md-5 mb-4">
-            <img src="./static/images/closeup-picture-gardener-s-hands-planting-plant.jpg" class="img-fluid hero-img" alt="Fertilizer Image">
+    <!-- Main Row -->
+    <div class="fert-row">
+
+      <!-- Left: Image + Info Cards -->
+      <div class="fert-img-col">
+        <div class="fert-img-wrapper">
+          <img src="./static/images/closeup-picture-gardener-s-hands-planting-plant.jpg" alt="Gardener planting">
         </div>
+        <div class="fert-info-cards">
+          <div class="fert-info-card">
+            <i class="fas fa-flask"></i>
+            <div class="fi-title">Nutrients</div>
+            <div class="fi-value">N, P, K</div>
+          </div>
+          <div class="fert-info-card">
+            <i class="fas fa-globe-americas"></i>
+            <div class="fi-title">Soil & Crop</div>
+            <div class="fi-value">Type Match</div>
+          </div>
+          <div class="fert-info-card">
+            <i class="fas fa-leaf"></i>
+            <div class="fi-title">Output</div>
+            <div class="fi-value">Best Fertilizer</div>
+          </div>
+        </div>
+      </div>
 
-        <!-- Right Form -->
-        <div class="col-md-6">
-            <div class="card-form">
-                <form action="/fertilizer-recommendation" method="POST">
-                    
-                    <div class="form-group">
-                        <label for="temperature">🌡 Soil Temperature</label>
-                        <input class="form-control" type="number" min="0" step="any" id="temperature" name="temperature"
-                            required placeholder="Enter soil temperature (°C)">
-                    </div>
+      <!-- Right: Form -->
+      <div class="fert-form-col">
+        <div class="fert-form-card">
+          <h4>Enter Field Data</h4>
+          <p class="form-subtitle">All fields are required for an accurate recommendation</p>
 
-                    <div class="form-group">
-                        <label for="humidity">💧 Soil Humidity</label>
-                        <input class="form-control" type="number" min="0" step="any" id="humidity" name="humidity"
-                            required placeholder="Enter soil humidity (%)">
-                    </div>
+          <form action="/fertilizer-recommendation" method="POST" style="flex:1; display:flex; flex-direction:column;">
 
-                    <div class="form-group">
-                        <label for="moisture">💦 Soil Moisture</label>
-                        <input class="form-control" type="number" min="0" step="any" id="moisture" name="moisture"
-                            required placeholder="Enter soil moisture (%)">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="N">🌿 Amount of Nitrogen (N)</label>
-                        <input class="form-control" type="number" min="0" name="N" required
-                            placeholder="Enter nitrogen content">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="P">⚡ Amount of Phosphorous (P)</label>
-                        <input class="form-control" type="number" min="0" id="P" name="P" required
-                            placeholder="Enter phosphorous content">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="K">🌾 Amount of Potassium (K)</label>
-                        <input class="form-control" type="number" min="0" id="K" name="K" required
-                            placeholder="Enter potassium content">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="soil">🌍 Soil Type</label>
-                        <select name="soil" class="form-control" required>
-                            {% for i, soil in soil_types %}
-                            <option value="{{i}}">{{soil}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="crop">🌱 Crop Type</label>
-                        <select name="crop" class="form-control" required>
-                            {% for i, crop in crop_types %}
-                            <option value="{{i}}">{{crop}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-success">🔍 Predict</button>
-                    </div>
-
-                </form>
+            <div class="fr-section-label">Weather & Soil Conditions</div>
+            <div class="fr-form-grid">
+              <div class="fr-field">
+                <label for="temperature"><i class="fas fa-temperature-high"></i> Temperature (°C)</label>
+                <input class="form-control" type="number" min="0" step="any" id="temperature" name="temperature"
+                  required placeholder="e.g. 26">
+              </div>
+              <div class="fr-field">
+                <label for="humidity"><i class="fas fa-tint"></i> Humidity (%)</label>
+                <input class="form-control" type="number" min="0" step="any" id="humidity" name="humidity"
+                  required placeholder="e.g. 52">
+              </div>
+              <div class="fr-field full-width">
+                <label for="moisture"><i class="fas fa-water"></i> Moisture (%)</label>
+                <input class="form-control" type="number" min="0" step="any" id="moisture" name="moisture"
+                  required placeholder="e.g. 38">
+              </div>
             </div>
+
+            <div class="fr-section-label" style="margin-top:8px;">Soil Nutrients</div>
+            <div class="fr-form-grid">
+              <div class="fr-field">
+                <label for="N"><i class="fas fa-atom"></i> Nitrogen (N)</label>
+                <input class="form-control" type="number" min="0" id="N" name="N" required placeholder="e.g. 37">
+              </div>
+              <div class="fr-field">
+                <label for="P"><i class="fas fa-atom"></i> Phosphorous (P)</label>
+                <input class="form-control" type="number" min="0" id="P" name="P" required placeholder="e.g. 0">
+              </div>
+              <div class="fr-field full-width">
+                <label for="K"><i class="fas fa-atom"></i> Potassium (K)</label>
+                <input class="form-control" type="number" min="0" id="K" name="K" required placeholder="e.g. 0">
+              </div>
+            </div>
+
+            <div class="fr-section-label" style="margin-top:8px;">Soil & Crop Type</div>
+            <div class="fr-form-grid">
+              <div class="fr-field">
+                <label for="soil"><i class="fas fa-globe-americas"></i> Soil Type</label>
+                <select name="soil" class="form-control" required>
+                  {% for i, soil in soil_types %}
+                  <option value="{{i}}">{{soil}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="fr-field">
+                <label for="crop"><i class="fas fa-seedling"></i> Crop Type</label>
+                <select name="crop" class="form-control" required>
+                  {% for i, crop in crop_types %}
+                  <option value="{{i}}">{{crop}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <div class="text-center" style="margin-top:auto; padding-top:10px;">
+              <button type="submit" class="fr-submit-btn">
+                <i class="fas fa-search"></i>&nbsp; Predict Best Fertilizer
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
 
     </div>
-</div>
+  </div>
+</section>
 
 {% endblock %}

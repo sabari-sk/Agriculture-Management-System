@@ -3,7 +3,7 @@
 
 <style>
   /* Page Background */
-  .crop-rec-page {
+  .crop-health-page {
     background: linear-gradient(160deg, #f0faf0 0%, #e8f5e9 40%, #fff 100%);
     min-height: 100vh;
     padding-top: 100px;
@@ -11,71 +11,71 @@
   }
 
   /* Hero */
-  .crop-hero {
+  .ch-hero {
     text-align: center;
     margin-bottom: 40px;
-    animation: crFadeIn 0.8s ease-out;
+    animation: chFadeIn 0.8s ease-out;
   }
-  .crop-hero h1 {
+  .ch-hero h1 {
     font-size: 2.6rem;
     font-weight: 700;
     color: #1b4332;
     margin-bottom: 8px;
     font-family: 'Poppins', sans-serif;
   }
-  .crop-hero h1 span {
+  .ch-hero h1 span {
     background: linear-gradient(90deg, #2d6a4f, #52b788);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  .crop-hero p {
+  .ch-hero p {
     font-size: 1.05rem;
     color: #6c757d;
-    max-width: 520px;
+    max-width: 540px;
     margin: 0 auto;
     line-height: 1.6;
   }
 
   /* Layout Row */
-  .crop-row {
+  .ch-row {
     display: flex;
     align-items: stretch;
     gap: 36px;
   }
 
   /* Image Side */
-  .crop-img-col {
+  .ch-img-col {
     flex: 0 0 42%;
     max-width: 42%;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    animation: crFadeIn 1s ease-out;
+    animation: chFadeIn 1s ease-out;
   }
-  .crop-img-wrapper {
+  .ch-img-wrapper {
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
     flex: 1;
   }
-  .crop-img-wrapper img {
+  .ch-img-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     transition: transform 0.5s ease;
   }
-  .crop-img-wrapper:hover img {
+  .ch-img-wrapper:hover img {
     transform: scale(1.04);
   }
 
   /* Info Cards below image */
-  .info-cards {
+  .ch-info-cards {
     display: flex;
     gap: 12px;
   }
-  .info-card {
+  .ch-info-card {
     flex: 1;
     background: #fff;
     border-radius: 12px;
@@ -84,35 +84,35 @@
     box-shadow: 0 3px 12px rgba(0,0,0,0.07);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  .info-card:hover {
+  .ch-info-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
   }
-  .info-card i {
+  .ch-info-card i {
     font-size: 1.5rem;
     color: #40916c;
     margin-bottom: 6px;
     display: block;
   }
-  .info-card .info-title {
+  .ch-info-card .ch-title {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: #999;
     margin-bottom: 2px;
   }
-  .info-card .info-value {
+  .ch-info-card .ch-value {
     font-size: 0.9rem;
     font-weight: 600;
     color: #2d6a4f;
   }
 
   /* Form Side */
-  .crop-form-col {
+  .ch-form-col {
     flex: 1;
-    animation: crSlideUp 0.8s ease-out;
+    animation: chSlideUp 0.8s ease-out;
   }
-  .crop-form-card {
+  .ch-form-card {
     background: #ffffff;
     padding: 32px 36px;
     border-radius: 18px;
@@ -122,14 +122,14 @@
     display: flex;
     flex-direction: column;
   }
-  .crop-form-card h4 {
+  .ch-form-card h4 {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     color: #1b4332;
     margin-bottom: 4px;
     font-size: 1.25rem;
   }
-  .crop-form-card .form-subtitle {
+  .ch-form-card .form-subtitle {
     font-size: 0.88rem;
     color: #888;
     margin-bottom: 22px;
@@ -137,8 +137,8 @@
     border-bottom: 1px solid #eee;
   }
 
-  /* Section Labels inside form */
-  .section-label {
+  /* Section Labels */
+  .ch-section-label {
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -149,20 +149,20 @@
   }
 
   /* Form Grid */
-  .form-grid {
+  .ch-form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0 20px;
   }
-  .form-grid .full-width {
+  .ch-form-grid .full-width {
     grid-column: 1 / -1;
   }
 
   /* Input Group */
-  .cr-field {
+  .ch-field {
     margin-bottom: 16px;
   }
-  .cr-field label {
+  .ch-field label {
     font-size: 0.82rem;
     font-weight: 600;
     color: #495057;
@@ -171,13 +171,13 @@
     align-items: center;
     gap: 6px;
   }
-  .cr-field label i {
+  .ch-field label i {
     color: #52b788;
     font-size: 0.85rem;
     width: 16px;
     text-align: center;
   }
-  .cr-field .form-control {
+  .ch-field .form-control {
     border-radius: 10px;
     padding: 11px 14px;
     border: 1.5px solid #dee2e6;
@@ -186,19 +186,19 @@
     margin: 0;
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
-  .cr-field .form-control:focus {
+  .ch-field .form-control:focus {
     border-color: #52b788;
     box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.15);
     outline: none;
     background: #fff;
   }
-  .cr-field .form-control::placeholder {
+  .ch-field .form-control::placeholder {
     color: #b0b8c1;
     font-size: 0.85rem;
   }
 
   /* Submit Button */
-  .cr-submit-btn {
+  .ch-submit-btn {
     background: linear-gradient(135deg, #52b788 0%, #40916c 100%);
     border: none;
     padding: 13px 40px;
@@ -212,134 +212,130 @@
     box-shadow: 0 4px 14px rgba(82, 183, 136, 0.3);
     letter-spacing: 0.3px;
   }
-  .cr-submit-btn:hover {
+  .ch-submit-btn:hover {
     background: linear-gradient(135deg, #40916c 0%, #2d6a4f 100%);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(45, 106, 79, 0.35);
     color: #fff;
   }
-  .cr-submit-btn:active {
+  .ch-submit-btn:active {
     transform: translateY(0);
   }
 
   /* Responsive */
   @media (max-width: 991px) {
-    .crop-row {
+    .ch-row {
       flex-direction: column;
       gap: 24px;
     }
-    .crop-img-col {
+    .ch-img-col {
       flex: none;
       max-width: 100%;
     }
-    .crop-img-wrapper {
+    .ch-img-wrapper {
       max-height: 280px;
     }
-    .crop-form-card {
+    .ch-form-card {
       padding: 24px 20px;
     }
-    .form-grid {
+    .ch-form-grid {
       grid-template-columns: 1fr;
     }
-    .crop-hero h1 {
+    .ch-hero h1 {
       font-size: 2rem;
     }
   }
 
   /* Animations */
-  @keyframes crFadeIn {
+  @keyframes chFadeIn {
     from { opacity: 0; transform: translateY(-15px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  @keyframes crSlideUp {
+  @keyframes chSlideUp {
     from { opacity: 0; transform: translateY(25px); }
     to { opacity: 1; transform: translateY(0); }
   }
 </style>
 
-<section class="crop-rec-page">
+<section class="crop-health-page">
   <div class="container">
 
     <!-- Hero -->
-    <div class="crop-hero">
-      <h1><span>Crop Recommendation</span></h1>
-      <p>Provide your soil nutrients and weather conditions — our AI model will suggest the best crop for your field.</p>
+    <div class="ch-hero">
+      <h1><span>Crop Health Analysis</span></h1>
+      <p>Provide your soil and air conditions — our AI model will predict your crop's health status.</p>
     </div>
 
     <!-- Main Row -->
-    <div class="crop-row">
+    <div class="ch-row">
 
       <!-- Left: Image + Info Cards -->
-      <div class="crop-img-col">
-        <div class="crop-img-wrapper">
-          <img src="./static/images/young-farmer-taking-care-his-business.jpg" alt="Farmer in field">
+      <div class="ch-img-col">
+        <div class="ch-img-wrapper">
+          <img src="./static/images/young-farmer-taking-care-his-business.jpg" alt="Farmer checking crop health">
         </div>
-        <div class="info-cards">
-          <div class="info-card">
-            <i class="fas fa-flask"></i>
-            <div class="info-title">Nutrients</div>
-            <div class="info-value">N, P, K</div>
-          </div>
-          <div class="info-card">
+        <div class="ch-info-cards">
+          <div class="ch-info-card">
             <i class="fas fa-thermometer-half"></i>
-            <div class="info-title">Climate</div>
-            <div class="info-value">Temp & Rain</div>
+            <div class="ch-title">Soil</div>
+            <div class="ch-value">Temp & Moisture</div>
           </div>
-          <div class="info-card">
-            <i class="fas fa-seedling"></i>
-            <div class="info-title">Output</div>
-            <div class="info-value">Best Crop</div>
+          <div class="ch-info-card">
+            <i class="fas fa-wind"></i>
+            <div class="ch-title">Air</div>
+            <div class="ch-value">Temp & Humidity</div>
+          </div>
+          <div class="ch-info-card">
+            <i class="fas fa-heartbeat"></i>
+            <div class="ch-title">Output</div>
+            <div class="ch-value">Health Status</div>
           </div>
         </div>
       </div>
 
       <!-- Right: Form -->
-      <div class="crop-form-col">
-        <div class="crop-form-card">
-          <h4>Enter Field Data</h4>
-          <p class="form-subtitle">All fields are required for an accurate prediction</p>
+      <div class="ch-form-col">
+        <div class="ch-form-card">
+          <h4>Enter Field Conditions</h4>
+          <p class="form-subtitle">All fields are required for an accurate health prediction</p>
 
-          <form action="/crop-recommendation" method="POST" style="flex:1; display:flex; flex-direction:column;">
+          <form action="/crop-health" method="POST" style="flex:1; display:flex; flex-direction:column;">
 
-            <div class="section-label">Soil Nutrients</div>
-            <div class="form-grid">
-              <div class="cr-field">
-                <label for="N"><i class="fas fa-atom"></i> Nitrogen (N)</label>
-                <input class="form-control" type="number" min="0" id="N" name="N" required placeholder="e.g. 90">
+            <div class="ch-section-label">Soil Conditions</div>
+            <div class="ch-form-grid">
+              <div class="ch-field">
+                <label for="soil_temperature"><i class="fas fa-temperature-high"></i> Soil Temperature (°C)</label>
+                <input class="form-control" type="number" min="0" step="any" id="soil_temperature" name="soil_temperature" required placeholder="e.g. 25">
               </div>
-              <div class="cr-field">
-                <label for="P"><i class="fas fa-atom"></i> Phosphorous (P)</label>
-                <input class="form-control" type="number" min="0" id="P" name="P" required placeholder="e.g. 42">
-              </div>
-              <div class="cr-field full-width">
-                <label for="K"><i class="fas fa-atom"></i> Potassium (K)</label>
-                <input class="form-control" type="number" min="0" id="K" name="K" required placeholder="e.g. 43">
+              <div class="ch-field">
+                <label for="soil_moisture"><i class="fas fa-tint"></i> Soil Moisture (%)</label>
+                <input class="form-control" type="number" min="0" step="any" id="soil_moisture" name="soil_moisture" required placeholder="e.g. 65">
               </div>
             </div>
 
-            <div class="section-label" style="margin-top:8px;">Weather & Soil Conditions</div>
-            <div class="form-grid">
-              <div class="cr-field">
-                <label for="temperature"><i class="fas fa-temperature-high"></i> Temperature (°C)</label>
-                <input class="form-control" type="number" min="0" step="any" id="temperature" name="temperature" required placeholder="e.g. 25.5">
+            <div class="ch-section-label" style="margin-top:8px;">Air Conditions</div>
+            <div class="ch-form-grid">
+              <div class="ch-field">
+                <label for="air_temperature"><i class="fas fa-sun"></i> Air Temperature (°C)</label>
+                <input class="form-control" type="number" min="0" step="any" id="air_temperature" name="air_temperature" required placeholder="e.g. 22">
               </div>
-              <div class="cr-field">
-                <label for="humidity"><i class="fas fa-tint"></i> Humidity (%)</label>
-                <input class="form-control" type="number" min="0" step="any" id="humidity" name="humidity" required placeholder="e.g. 80">
+              <div class="ch-field">
+                <label for="air_humidity"><i class="fas fa-water"></i> Air Humidity (%)</label>
+                <input class="form-control" type="number" min="0" step="any" id="air_humidity" name="air_humidity" required placeholder="e.g. 55">
               </div>
-              <div class="cr-field">
-                <label for="phosphore"><i class="fas fa-vial"></i> Soil pH</label>
-                <input class="form-control" type="number" min="0" max="14" step="any" id="phosphore" name="phosphore" required placeholder="e.g. 6.5">
-              </div>
-              <div class="cr-field">
-                <label for="rainfall"><i class="fas fa-cloud-rain"></i> Rainfall (mm)</label>
-                <input class="form-control" type="number" min="0" step="any" id="rainfall" name="rainfall" required placeholder="e.g. 200">
+            </div>
+
+            <div class="ch-section-label" style="margin-top:8px;">Water</div>
+            <div class="ch-form-grid">
+              <div class="ch-field full-width">
+                <label for="water_level"><i class="fas fa-fill-drip"></i> Water Level (%)</label>
+                <input class="form-control" type="number" min="0" step="any" id="water_level" name="water_level" required placeholder="e.g. 75">
               </div>
             </div>
 
             <div class="text-center" style="margin-top:auto; padding-top:10px;">
-              <button type="submit" class="cr-submit-btn">
-                <i class="fas fa-search"></i>&nbsp; Predict Best Crop
+              <button type="submit" class="ch-submit-btn">
+                <i class="fas fa-heartbeat"></i>&nbsp; Check Crop Health
               </button>
             </div>
           </form>

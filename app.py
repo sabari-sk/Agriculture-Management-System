@@ -1,17 +1,17 @@
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request
 import random, os
-from werkzeug.utils import secure_filename
-from functions import img_predict, get_diseases_classes, get_crop_recommendation, get_fertilizer_recommendation, soil_types, Crop_types, crop_list
+from functions import (
+	get_crop_recommendation,
+	get_fertilizer_recommendation,
+	get_crop_health_prediction,
+	soil_types,
+	Crop_types,
+)
 
 
 app = Flask(__name__)
 random.seed(0)
 app.config['SECRET_KEY'] = os.urandom(24)
-
-UPLOAD_FOLDER = 'uploads'
-STATIC_FOLDER = 'static'
-
-dir_path = os.path.dirname(os.path.realpath(__file__))
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -46,26 +46,16 @@ def fertilizer_recommendation():
 			crop_types=enumerate(Crop_types)
 		)
 
-	
-@app.route('/crop-disease', methods=['POST','GET'])
-def find_crop_disease():
-	if request.method=="GET":
-		return render_template('crop-disease.html', crops=crop_list)
+@app.route('/crop-health', methods=['GET', 'POST'])
+def crop_health():
+	if request.method == "POST":
+		to_predict_list = request.form.to_dict()
+		to_predict_list = list(to_predict_list.values())
+		to_predict_list = list(map(float, to_predict_list))
+		result = get_crop_health_prediction(to_predict_list)
+		return render_template("recommend_result.html", result=result)
 	else:
-		file = request.files["file"]
-		crop = request.form["crop"]
-
-		basepath = os.path.dirname(__file__)
-		file_path = os.path.join(basepath,'uploads',  secure_filename(file.filename))
-		file.save(file_path)
-		prediction = img_predict(file_path, crop)
-		result = get_diseases_classes(crop, prediction)
-
-		return render_template('disease-prediction-result.html', image_file_name=file.filename, result=result)
-
-@app.route('/uploads/<filename>')
-def send_file(filename):
-	return send_from_directory(UPLOAD_FOLDER, filename)
+		return render_template('crop-health.html')
 
 if __name__ == '__main__':
 	port = int(os.environ.get('PORT', 5000))
